@@ -1,3 +1,3 @@
-# GUI
+# Graphical User Interfaces
 
-Backup code from my Graphical User Interface *GUI) course
+Backup code from my OOP Graphical User Interface Programming course
