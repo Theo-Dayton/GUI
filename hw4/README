@@ -1,0 +1,44 @@
+CS86 -- Theo Dayton
+
+For HW4: Current functionality is the add button adding a
+battleship to the model, and the remove button clearing all the
+battleships from the model. Currently the ships are randomly
+selected (right now from battleships and submarines, which have
+different shapes), and their position and size are also randomly
+selected. The scrollbars also change the x and y values of all
+the ships, so that the user can move the radar around. Toggle
+button now simply rotates the ships 90 degress.
+
+For some reason the ships are flickering on screen, im guessing
+from the paintComponent method being called repeatedly. I will go
+to next OH to have this fixed
+
+How to compile and run:
+1 - javac Main.java
+2 - java Main
+
+Inheritance hierarchy:
+
+Ship superclass:
+    -Battleship
+    -Submarine
+
+Scrollbar superclass:
+    -Horizontal scrollbar
+    -Vertical scrollbar
+
+Aggregation hierarchy:
+
+Main:
+    -JPanel
+    -Canvas
+    -Button
+    -ScrolllBarHorizontal
+    -ScrollBarVertical
+    -ToggleButton
+    -Model
+
+Model:
+    -Ship
+
+
