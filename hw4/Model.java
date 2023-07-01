@@ -8,14 +8,15 @@ public class Model {
 		this.ships = new ArrayList<Ship>();
     }
 
-	public void addShip(String name) {
+	public void addRandomToList() {
 		int min = 10;
 		int max = 200;
 		int x = (int)Math.floor(Math.random()*(max-min+1)+min);
 		int y = (int)Math.floor(Math.random()*(max-min+1)+min);
 		int width = (int)Math.floor(Math.random()*(200-100+1)+100);
 		int length = (int)Math.floor(Math.random()*(100-50+1)+50);
-		if (name == "Battleship") {
+		int rand = (int)Math.floor(Math.random()*(1-0+1)+1);
+		if (rand == 1) {
 			Battleship battleship = new Battleship(x,y,width,length);
 			ships.add(battleship);
 	}
@@ -23,14 +24,6 @@ public class Model {
 			Submarine sub = new Submarine(x,y,width,length);
 			ships.add(sub);
 		}
-	}
-
-	public void addBattleship() {
-		addShip("Battleship");
-	}
-
-	public void addSubmarine() {
-		addShip("Submarine");
 	}
 
 	public void addToList(Ship ship) {

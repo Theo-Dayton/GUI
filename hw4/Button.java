@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Button extends JButton implements ActionListener{ 
-    protected Canvas c;
+    private Canvas c;
 
     public Button (String label) {
 	    setText (label);
@@ -22,6 +22,15 @@ public class Button extends JButton implements ActionListener{
     }
 
     public void actionPerformed (ActionEvent e) {
-
+        JButton buttonSource = (JButton) e.getSource();
+        // Checks to see which button was pressed
+        if (buttonSource.getText() == "Add") {
+            c.addRandomShip();
+            System.out.println("Ship was added!");
+        }
+        else {
+            System.out.println("Ships were removed");
+            c.resetCanvas();
+        }
     }
 }

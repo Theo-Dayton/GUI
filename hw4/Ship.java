@@ -44,5 +44,6 @@ public class Ship {
         this.length = temp;
     }
     public void paintComponent(Graphics g) {
+        System.out.println("test");
     }
 }

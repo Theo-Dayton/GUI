@@ -24,15 +24,14 @@ public class Main extends JFrame {
 	this.canvas = new Canvas(model);
 
 	for (int i = 0; i <3; i++) {
-		this.model.addShip("Battleship");
+		this.model.addRandomToList();
 	}
 
 
-	JPanel subPanel = new JPanel(new FlowLayout());
+	JPanel subPanel = new JPanel();
 
-	subPanel.add (new ButtonSubmarine ("Add Submarine", this.canvas));
-	subPanel.add (new ButtonBattleship ("Add Battleship", this.canvas));
-	subPanel.add (new ButtonClear ("Clear", this.canvas));
+	subPanel.add (new Button ("Add", this.canvas));
+	subPanel.add (new Button ("Delete", this.canvas));
 
 	framing.add (subPanel, BorderLayout.NORTH);
 	framing.add (new ScrollBarHorizontal(this.canvas), BorderLayout.SOUTH);

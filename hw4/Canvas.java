@@ -13,21 +13,20 @@ public class Canvas extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        System.out.println("canvas");
+        //System.out.println("canvas");
         super.paintComponent(g);
         for (Ship s : model.getList()) {
-            s.paintComponent(g);
+            s.paintComponent(getGraphics());
         }
+        repaint();
     }
     
     public void resetCanvas() {
         model.clearList();
     }
-
-    public void addShip(String name) {
-        model.addShip(name);
+    public void addRandomShip() {
+        model.addRandomToList();
     }
-
     public void toggleRotate() {
         model.rotate();
     }
