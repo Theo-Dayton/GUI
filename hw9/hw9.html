@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<title>Comp 86 example Draw</title>
+<!-- Similar to java Draw3, using HTML5 canvas -->
+
+<script>
+    let initX = 50;
+    let initY = 50;
+    let sizeX = 100;
+    let sizeY = 100;
+
+    let initX2 = 50;
+    let initY2 = 50;
+    let sizeX2 = 100;
+    let sizeY2 = 100;
+
+    let fill = false;
+    let fill2 = false;
+
+function doit (event) {
+	let c = document.getElementById ("MyCanvas"); 
+	let gc = c.getContext("2d"); 
+
+	// Grey background
+	gc.fillStyle = "#EEEEEE"; 
+	gc.fillRect (0, 0, c.width, c.height); 
+
+	// Same line as in the java version
+	gc.strokeStyle = "black" 
+    gc.fillStyle = "BLACK"; 
+
+	draw(gc, initX, initY ,sizeX, sizeY);
+    if (fill) {
+        gc.fill();
+    }
+    draw(gc, initX2, initY2 ,sizeX2, sizeY2);
+    if (fill2) {
+        gc.fill();
+    }
+}
+
+// Just a common code fragment, not a genuine repaint callback,
+// redraws inital basis
+function drawBackground () { 
+
+	let c = document.getElementById ("MyCanvas"); 
+	let gc = c.getContext("2d"); 
+
+	// Grey background
+	gc.fillStyle = "#EEEEEE"; 
+	gc.fillRect (0, 0, c.width, c.height); 
+
+	// Same line as in the java version
+	gc.strokeStyle = "black" 
+	draw(gc,initX, initY, sizeX ,sizeY);
+    
+    draw(gc,initX2, initY2, sizeX2 ,sizeY2);
+}
+
+function draw(gc, initX, inityY, sizeX , sizeY) {
+    gc.beginPath(); 
+	gc.moveTo (initX, initY); 
+	gc.lineTo (sizeX, initY);
+    gc.lineTo (sizeX, sizeY); 
+    gc.lineTo (initX, sizeY); 
+    gc.lineTo (initX, initY); 
+	gc.stroke();
+}
+
+function buttonPressed (str) { 
+      if (str == "left") {
+        initX -= 10;
+        sizeX -= 10;
+      }
+      else if (str == "right") {
+        initX += 10;
+        sizeX += 10;
+      } 
+      else if (str == "bigger") {
+        sizeX += 10;
+        sizeY += 10;
+      }
+      else if (str == "smaller" && sizeX != initX) {
+        sizeX -= 10;
+        sizeY -= 10;
+      }
+      else if (str == "filled") {
+        fill = !fill;
+      }
+      else if (str == "left2") {
+        initX2 -= 10;
+        sizeX2 -= 10;
+      }
+      else if (str == "right2") {
+        initX2 += 10;
+        sizeX2 += 10;
+      }
+      else if (str == "bigger2") {
+        sizeX2 += 10;
+        sizeY2 += 10;
+      }
+      else if (str == "smaller2" && sizeX2 != initX2) {
+        sizeX2 -= 10;
+        sizeY2 -= 10;
+      }
+      else if (str == "filled2") {
+        fill2 = !fill2;
+      }
+      doit(event);
+}
+
+window.onload = drawBackground 
+
+</script> 
+</head>
+
+<body>
+
+<canvas id="MyCanvas" width="300" height="300"></canvas>
+
+<br>
+
+<input type=button value="Left"
+	onclick="buttonPressed('left')">
+
+<input type=button value="Right"
+	onclick="buttonPressed('right')">
+
+<input type=button value="Bigger"
+	onclick="buttonPressed('bigger')">
+
+<input type=button value="Smaller"
+	onclick="buttonPressed('smaller')">
+
+<input type=button value="Filled"
+	onclick="buttonPressed('filled')">
+
+<br>
+
+<input type=button value="Left"
+	onclick="buttonPressed('left2')">
+
+<input type=button value="Right"
+	onclick="buttonPressed('right2')">
+
+<input type=button value="Bigger"
+	onclick="buttonPressed('bigger2')">
+
+<input type=button value="Smaller"
+	onclick="buttonPressed('smaller2')">
+
+<input type=button value="Filled"
+	onclick="buttonPressed('filled2')">
+
+</body>
+</html>
