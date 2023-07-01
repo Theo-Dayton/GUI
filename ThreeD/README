@@ -1,0 +1,53 @@
+CS86 -- Theo Dayton
+
+For ThreeD : This program allows the user to create three different types
+of ships in a 3D world. First a Battleship which is represented by a cube, then
+a submarine which is represented by a sphere, and finally a UFO which is 
+represented by a capsule with a dodecahedron on top of it. The dodecahedron
+on top of the capsule is a moving part. There is a button for creating each
+one of these ships. The location of the ships is slightly random. The user
+can also move the ships either left or right by using the buttons. 
+
+How to compile and run:
+No compiling is required, just access hw10.html on a browser
+
+(I tried to extend a Ship superclass to subclasses but was not working,
+so I decided to make seperate classes instead)
+
+Inheritance hierarchy:
+
+    Ship classes:
+    BattlesShip
+    Submarine
+    UFO
+
+    Scene class
+
+    Lights class
+
+
+Aggregation hierarchy:
+
+    Main:
+        -Scene
+        -renderer
+        -controls
+
+    Scene:
+        -Array of ships
+        -camera
+        -lights
+
+    UFO:
+        -radar
+            -radarMove
+
+
+Collaboration relationships:
+
+    Battleship:
+        -Scene
+    Submarine:
+        -Scene
+    UFO:
+        -Scene

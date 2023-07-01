@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+<TITLE>WebGazer Game</TITLE>
+
+<!-- <script src="https://webgazer.cs.brown.edu/webgazer.js"> </script> -->
+
+<script src="webgazer.js"></script>
+<script>
+/*
+ * Bare bones program that uses WebGazer.js
+ *
+ * Based on https://webgazer.cs.brown.edu/demo.html by Jeff Huang
+ *
+ * Must run on a remote server, and access via https not http. 
+ * Must download webgazer.js from http://webgazer.cs.brown.edu and put it where above 'script src=' statement will find it. 
+ * Can ignore alert box that complains about webGL. 
+ */
+
+function inTarget (data) { 
+    // Weird offset determined empirically, other dimensions match our HTML
+    let xoffset = 350
+    return data && data.x > 400+xoffset && data.x < 400+xoffset+100 && data.y > 300 && data.y < 300+100
+}
+
+enemylist = [];
+
+// Creating variables so we can edit them
+var intervalId
+
+var timeInterval = 5000
+var enemySpawns = 2
+
+//Creates new enemies and puts them into the enemy list
+function spawnEnemies(numenemies) {
+    for (i = 0; i < numenemies; i++) {
+        newenemy = new Enemy()
+        enemylist.push(newenemy)
+    }
+}
+
+//Deletes the first n number of enemies from the list
+function deleteEnemies(numenemies) {
+    enemylist.splice(0, numenemies)
+}
+
+//Clears the whole screen for redrawing
+function Clear(){
+	var canvas = document.getElementById("canvas")
+	var ctx = canvas.getContext("2d");
+	
+	ctx.clearRect(0,0,1000,1000);
+}
+
+//Draws all of the enemies in the enemy list
+function drawEnemies() {
+    Clear();
+
+    for (i = 0; i < enemylist.length; i++) {
+        var canvas = document.getElementById("canvas")
+	    var context = canvas.getContext("2d");
+        context.fillRect(enemylist[i].getX(), enemylist[i].getY(), 35, 35);
+    }
+}
+
+/*
+Enemy class: 
+x = x coordinate on canvas
+y = y coordinate on canvas
+*/
+class Enemy {
+    constructor(){
+        this.x = Math.floor(Math.random() * 800);
+        this.y = Math.floor(Math.random() * 800);
+    }
+
+    getX() {
+        return this.x
+    }
+
+    getY() {
+        return this.y
+    }
+}
+
+/*
+ * Called whenever we get new gaze data
+ * data = object containing an x and y key which are the x and y prediction coordinates (no bounds limiting)
+ * clock = elapsed time in milliseconds since webgazer.begin() was called
+ */
+var lastHit = 0
+function gaze (data, clock) { 
+    const delay = 400 // ms
+
+    if (data==null) return;
+
+    //Checks to see if we are in contact with an enemy
+    let xoffset = 350
+    for (i = 0; i < enemylist.length; i++){
+        if (data.x > enemylist[i].getX()+xoffset && data.x < enemylist[i].getX()+xoffset+35 && data.y > enemylist[i].getY() && data.y < enemylist[i].getY()+35){
+            console.log("Hit a box")
+            enemylist.splice(i,1)
+            addScore()
+            drawEnemies()
+        }
+    }
+    /*
+    let target = document.getElementById("target1")
+
+    if (inTarget (data)) { 
+        //console.log("In target")
+        target.style.color = "red" 
+	target.style.background = "black" 
+
+	lastHit = clock 
+    }
+    else {
+	// Time delay is just so user will notice the color change
+	if (clock-lastHit > delay) { 
+	    target.style.color = "black" 
+	    target.style.background = "white" 
+	}
+    }
+    */
+}
+
+function nextLevel() {
+    alert("Next level!")
+    addLevel()
+    increaseDifficulty()
+    setTimeout(nextLevel,10000)
+}
+
+window.onload = function() {
+
+    alert("5 Dots will appear on the screen for about 30 seconds. To calibrate," +
+    " click each dot with the mouse 2-5 times while also looking at it." + 
+    "\nNOTE: Only do this after your face has been recognized by the camera.")
+
+    var canvas = document.getElementById('canvas');
+    webgazer.setGazeListener(gaze) 
+	.begin() 
+    //Put a calibrate function here
+
+    let calibrated = false
+    let i = 0
+    calibrate_interval = window.setInterval(function(){
+        var canvas = document.getElementById("canvas")
+        var ctx = canvas.getContext("2d");
+        
+        ctx.fillStyle = "black";
+
+        ctx.beginPath();
+        ctx.arc(500, 50, 10, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(950, 50, 10, 0, 2 * Math.PI);
+        ctx.fill();
+        
+        ctx.beginPath();
+        ctx.arc(950, 550, 10, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(500, 550, 10, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(100, 550, 10, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.fillStyle = "black";
+        //ctx.stroke();
+        //ctx.fill();
+
+        if (i == 1) {
+            clearInterval(calibrate_interval)
+            calibrated = true
+            setTimeout(nextLevel,10000)
+        }
+        i++
+    }, 30000)
+
+
+    //create the variable outside the function
+    intervalId = window.setInterval(function(){
+        if (calibrated){
+            //These are what we can change depending on difficulty
+            spawnEnemies(enemySpawns)
+            deleteEnemies(1)
+            drawEnemies()
+        }
+        //can also change the number of milliseconds below
+    }, timeInterval);
+};
+
+// Resetting the entire board
+function reset() {
+    deleteEnemies(enemylist.length)
+    drawEnemies()
+}
+
+// Pausing the game
+function pause() {
+    var btn = document.getElementById("pause")
+    if (btn.value == "Pause") {
+        btn.value = "Unpause"
+        clearInterval(intervalId)
+    }
+    else {
+        btn.value = "Pause"
+        intervalId = window.setInterval(function(){
+        spawnEnemies(enemySpawns)
+        deleteEnemies(1)
+        drawEnemies()
+    }, timeInterval);
+    }
+}
+
+// Adding 1 to the score, if score is 9 proceed to next level
+function addScore() {
+    var label = document.getElementById("score")
+    var m = label.textContent.match(/^(.*?)(\d+)$/);
+    var value = parseInt(m[2], 10);
+    value = isNaN(value) ? 0 : value;
+    label.textContent = m[1] + (value + 1)
+}
+
+// Adding 1 to level
+function addLevel() {
+    var label = document.getElementById("level")
+    var m = label.textContent.match(/^(.*?)(\d+)$/);
+    var value = parseInt(m[2], 10);
+    value = isNaN(value) ? 0 : value;
+    label.textContent = m[1] + (value + 1)
+}
+
+// OnPress function
+function buttonPressed (str) {
+    if (str == "reset") {
+        reset()
+    }
+    else if (str == "pause") {
+        pause()
+    }
+}
+
+// Variables can be changed
+function increaseDifficulty() {
+    enemySpawns++
+    timeInterval =- 200
+}
+
+
+</script>
+</head>
+
+<BODY LANG="en-US" LINK="#0000ff" DIR="LTR">
+
+
+
+
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+    </div>
+
+    <br>
+
+    <input type=button value="Reset"
+	onclick="buttonPressed('reset')">
+
+    <input type=button id="pause" value="Pause"
+	onclick="buttonPressed('pause')">
+
+    <label >Score: </label>
+    <label id="score">0</label>
+    <label > Level: </label>
+    <label id="level">1</label>
+
+</BODY>
+</HTML>

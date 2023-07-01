@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<title>Comp 86 Three.js Assignment</title>
+
+<script src="http://threejs.org/build/three.min.js"></script>
+<script src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="http://threejs.org/examples/js/loaders/OBJLoader.js"></script>
+<script src="boiler.js"></script>
+<script src="lights.js"></script>
+
+</head>
+
+
+<script>
+  
+  var myScene
+
+function makeSceneGraph () {
+	myScene = new Scene()
+	scene.add (myScene)
+	lights = new Lights()
+}
+
+
+  // Animation loop
+  animate = function () { 
+	requestAnimationFrame( animate ); 
+	myScene.tick() 
+	controls.update()
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+class Scene extends THREE.Object3D {
+    constructor () {
+	super()
+
+	// Keep our ships in a list so timer can access
+	this.ships = []
+
+    }
+
+    /*
+     * Receive timer tick, pass it to objects that need it
+     */
+    tick () { 
+	for (let r of this.ships) { 
+		r.tick() 
+	}
+	render(); 
+    }
+}
+class Battleship extends THREE.Object3D {
+  constructor () {
+	super()
+  const material = new THREE.MeshPhongMaterial ({ color: 0xffd9b3, shininess: 60 })
+  const geometry = new THREE.BoxGeometry( .5, .5, .5 )
+  const cube = new THREE.Mesh( geometry, material )
+  myScene.ships.push(this)
+  this.add(cube)
+    }
+
+    tick () {
+    }
+}
+
+class Submarine extends THREE.Object3D {
+  constructor () {
+	super()
+  const material = new THREE.MeshPhongMaterial ({ color: 0xff0000, shininess: 60 })
+  const geometry = new THREE.SphereGeometry( 1, 32, 16 )
+  const sphere = new THREE.Mesh( geometry, material )
+  myScene.ships.push(this)
+  this.add(sphere)
+    }
+    tick () {
+    }
+}
+
+class UFO extends THREE.Object3D {
+  constructor () {
+	super()
+  const material = new THREE.MeshPhongMaterial ({ color: 0xffd9b3, shininess: 60 })
+  const geometry = new THREE.CapsuleGeometry( 1, 1, 4, 8 )
+  const capsule = new THREE.Mesh( geometry, material )
+  myScene.ships.push(this)
+  this.add(capsule)
+  
+
+	this.radarMove = new THREE.Object3D () 
+	capsule.add (this.radarMove)
+  
+
+	// Radar
+  const material2 = new THREE.MeshPhongMaterial ({ color: 0xffffff, shininess: 60 })
+	let radar = new THREE.Mesh (
+	new THREE.DodecahedronGeometry (1,0), material2)
+	radar.position.set (0, 2, 0)
+	this.radarMove.add (radar)
+  
+    }
+
+    tick () {
+    let a = this.radarMove.rotation.y 
+    a += (2 * Math.PI) / (9*60) 
+    if (a > 2*Math.PI) { 
+      a -= 2 * Math.PI 
+    }
+    this.radarMove.rotation.set (0, a, 0) 
+    }
+}
+
+
+function addShip(shipType) {
+  let ship
+  if (shipType == "Battleship") {
+    ship = new Battleship ()
+  }
+  else if (shipType == "Submarine") {
+    ship = new Submarine ()
+  }
+  else if (shipType == "UFO") {
+    ship = new UFO ()
+  }
+  ship.position.set(getRandomInt(3),getRandomInt(3),getRandomInt(3))
+  scene.add( ship );
+  animate();
+  render();
+}
+
+function moveRight() {
+  scene.traverse(function(obj) {
+    if (obj.type === "Mesh") {
+      obj.translateX(1);
+    }
+  })
+  animate();
+  render();
+};
+
+function moveLeft() {
+  scene.traverse(function(obj) {
+    if (obj.type === "Mesh") {
+      obj.translateX(-1);
+    }
+  })
+  animate();
+  render();
+};
+
+function buttonPressed (str) { 
+    if (str == "add battleship") {
+      addShip("Battleship");
+    }
+    else if (str == "add submarine") {
+      addShip("Submarine");
+    }
+    else if (str == "add ufo") {
+      addShip("UFO");
+    }
+    else if (str == "move ships right") {
+      moveRight();
+    }
+    else if (str == "move ships left") {
+      moveLeft();
+    }
+}
+
+</script> 
+
+<body>
+
+
+<input type=button value="Add Battleship"
+	onclick="buttonPressed('add battleship')">
+
+<input type=button value="Add Submarine"
+onclick="buttonPressed('add submarine')">
+
+<input type=button value="Add UFO"
+	onclick="buttonPressed('add ufo')">
+
+  <input type=button value="Move All Ships Left"
+	onclick="buttonPressed('move ships left')">
+  
+<input type=button value="Move All Ships Right"
+onclick="buttonPressed('move ships right')">
+
+  <br>
+
+  <div id="theContainer"></div>
+
+</body>
+</html>
