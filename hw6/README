@@ -1,0 +1,62 @@
+CS86 -- Theo Dayton
+
+For HW6: Current functionality is the speed up and speed down which changes the
+speed at which the ships move. The toggle button also allows the user to stop
+and resume the movement of the ships. When the toggle button is pressed, 
+interacting with the speed up and speed down buttons is not allowed, so the
+user is not allowed to press those buttons until the user resumes the movement.
+There is also a combobox, a scrollbar with a label, and an "add ship" button, which will add the type of ship that was selected in the combobox, with the
+length specified in the scrollbar. Then the "Delete ship" button will delete
+any ship selected by the user. If the user fails to select one it will say so
+in the console. Finally the "Clear all" button will delete all ships on screen.
+The user can select ships by clicking on them in the canvas, and when doing so
+will unselect any other that was previously selected. The program also has a
+layout that changes based on the size of the window. If the window is too small
+tha layout will change to take up less space. For example, when the window
+get small enough, the speedup and slowdown button will dissapear, as well as the
+scrollbar and label at the top.
+
+Regarding collisions: The program implements collision detection in the sense
+that, when adding ships, the program will detect whether it collides with any
+of the other ships. If they do, it will look for another place to create the
+ship. If it takes too long to find space, it will stop the search and say so in
+the console.
+
+How to compile and run:
+1 - javac Main.java
+2 - java Main
+
+Inheritance hierarchy:
+
+Ship superclass:
+    -ShipBattlesShip
+    -ShipSubmarine
+
+Scrollbar superclass:
+    -Horizontal scrollbar
+    -Vertical scrollbar (Not used in this version)
+
+Button superclass:
+    -ButtonDelete
+    -ButtonClearAll
+    -ButtonSlowDown
+    -ButtonSpeedUp
+    -ButtonGet
+
+Aggregation hierarchy:
+
+Main:
+    -JPanel
+    -Canvas
+    -Button
+    -ComboBox
+    -GetButton
+    -ScrolllBarHorizontal
+    -ScrollBarVertical
+    -ToggleButton
+    -Model
+
+Model:
+    -Arraylist of ships
+
+
