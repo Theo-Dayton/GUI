@@ -1,0 +1,36 @@
+CS86 -- Theo Dayton
+
+
+My program will be a ship radar display which will show a number of ships moving around.  The drawing canvas will be in the middle, and there will be widgets on the sides. On the north, I will have two regular buttons that will create a new ship on the radar every time is pressed, and another one which will instead delete a random ship. On the west, On the south, I will have a scrollbar which will move where the radar is point left or right, which will cause the ships in the radar to move in the opposite direction. Likewise, there will be a scrollbar on the east, which will do the exact same, but move the radar up or down. On the west, there will be a toggle button which, when toggled, will activate the weapons system, which will destroy a ship every X seconds while active.
+
+For HW3: The only functionality is the add button adding a new ship (rectangle),
+and the delete button deleting it. Currently the ships are randomly placed on the
+screen, and they also have random sizes, this might change in the future. The
+scrollbars also change the x and y values of the rectangle, so that the user
+can move the radar around. Toggle button has no functionality. Once buttons
+get more complex i will create new subclass for each one
+
+How to compile and run:
+1 - javac Main.java
+2 - java Main
+
+Inheritance hierarchy:
+
+Button superclass:
+    -Add ship button
+    -Delete ship button
+
+Scrollbar superclass:
+    -Horizontal scrollbar
+    -Vertical scrollbar
+
+Aggregation hierarchy:
+
+Main:
+    -JPanel
+    -Canvas
+    -Button
+    -ScrolllBarHorizontal
+    -ScrollBarVertical
+    -ToggleButton
+
