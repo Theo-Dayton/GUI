@@ -1,0 +1,49 @@
+CS86 -- Theo Dayton
+
+For HW5: Current functionality is the speed up and speed down which changes the
+speed at which the ships move. The toggle button also allows the user to stop
+and resume the movement of the ships. When the toggle button is pressed, 
+interacting with the speed up and speed down buttons is not allowed, so the
+user is not allowed to press those buttons until the user resumes the movement.
+There is also a combobox, a scrollbar and an "add ship" button, which will add
+the type of ship that was selected in the combobox, with the length specified
+in the scrollbar. Finally, the clear button will remove all the ships from the
+screen.
+
+How to compile and run:
+1 - javac Main.java
+2 - java Main
+
+Inheritance hierarchy:
+
+Ship superclass:
+    -ShipBattlesShip
+    -ShipSubmarine
+
+Scrollbar superclass:
+    -Horizontal scrollbar
+    -Vertical scrollbar (Not used in this version)
+
+Button superclass:
+    -ButtonClear
+    -ButtonSlowDown
+    -ButtonSpeedUp
+    -GetButton
+
+Aggregation hierarchy:
+
+Main:
+    -JPanel
+    -Canvas
+    -Button
+    -ComboBox
+    -GetButton
+    -ScrolllBarHorizontal
+    -ScrollBarVertical
+    -ToggleButton
+    -Model
+
+Model:
+    -Arraylist of ships
+
+
