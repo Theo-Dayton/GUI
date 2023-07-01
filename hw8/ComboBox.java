@@ -1,14 +1,9 @@
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
-public class ComboBox extends JComboBox<String> implements ItemListener {
+abstract class ComboBox extends JComboBox<String> implements ItemListener {
 
     public ComboBox () {
-		addItem ("Battleship"); 
-		addItem ("Submarine"); 
-		setSelectedItem ("Battleship"); 
 		addItemListener (this);
     }
 

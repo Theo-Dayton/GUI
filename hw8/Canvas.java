@@ -11,13 +11,14 @@ import java.util.*;
 public class Canvas extends JPanel implements MouseListener {
     protected Model model;
     protected Main parent;
+    private ScheduledExecutorService executor;
 
     public Canvas (Main parent, Model model) {
         this.model = model;
         this.parent = parent;
         addMouseListener (this);
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-    executor.scheduleAtFixedRate(shipAdding, 0, 2, TimeUnit.SECONDS);
+        executor = Executors.newScheduledThreadPool(1);
+    executor.scheduleAtFixedRate(shipAdding, 0, 3, TimeUnit.SECONDS);
     }
 
     public void paintComponent(Graphics g) {
@@ -89,6 +90,22 @@ public class Canvas extends JPanel implements MouseListener {
     public void play() {
         parent.play();
         model.resetPoints();
+    }
+
+    public void setDifficulty(String difficulty) {
+        executor.shutdown();
+        if (difficulty == "Easy") {
+            executor = Executors.newScheduledThreadPool(1);
+    executor.scheduleAtFixedRate(shipAdding, 0, 3, TimeUnit.SECONDS);
+        }
+        else if (difficulty == "Medium") {
+            executor = Executors.newScheduledThreadPool(1);
+    executor.scheduleAtFixedRate(shipAdding, 0, 2, TimeUnit.SECONDS);
+        }
+        else if (difficulty == "Hard") {
+            executor = Executors.newScheduledThreadPool(1);
+    executor.scheduleAtFixedRate(shipAdding, 0, 1, TimeUnit.SECONDS);
+        }
     }
 
         // MouseListener defines all of these, so we must supply them 

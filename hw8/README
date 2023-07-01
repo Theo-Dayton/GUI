@@ -1,6 +1,6 @@
 CS86 -- Theo Dayton
 
-For HW7: Current functionality is the speed up and speed down which changes the
+For HW8: Current functionality is the speed up and speed down which changes the
 speed at which the ships move. The toggle button also allows the user to stop
 and resume the movement of the ships. When the toggle button is pressed, 
 interacting with the speed up and speed down buttons is not allowed, so the
@@ -17,7 +17,9 @@ in the console. Finally the "Clear all" button will delete all ships on screen.
 The "Play" button will allow the user to start playing to score points. When
 this button is pressed, the "Speed Up", "Slow Down", "Zoom In", "Zoom Out", 
 "Reset Zoom", "Add Ship", and "Clear All" buttons are all disabled so the user
-does not tamper with the ships. The toggle button is also disabled.
+does not tamper with the ships. The toggle button is removed and replaced with
+a jpanel which allows the user to choose a difficulty setting. The difficulty
+determines the rate at which new ships spawn.
 The combo box and the scrollbar are also removed when the player pressed "Play".
 This button will also add a "Score" label which will keep track and display the
 current score. The user can select ships by clicking on them in the canvas,
@@ -52,54 +54,6 @@ How to compile and run:
 the program. If it doesn't work the following steps should do the trick)
 1 - javac Main.java
 2 - java Main
-
-Inheritance hierarchy:
-
-    Ship superclass:
-        -ShipBattlesShip
-        -ShipSubmarine
-
-    Scrollbar superclass:
-        -Horizontal scrollbar
-        -Vertical scrollbar (Not used in this version)
-
-    Button superclass:
-        -ButtonDelete
-        -ButtonClearAll
-        -ButtonSlowDown
-        -ButtonSpeedUp
-        -ButtonGet
-        -ButtonPlay
-        -ButtonZoom
-
-Aggregation hierarchy:
-
-    Main:
-        -JPanel
-        -Canvas
-        -Button
-        -ComboBox
-        -GetButton
-        -ScrolllBarHorizontal
-        -ScrollBarVertical
-        -ToggleButton
-        -Model
-
-    Model:
-        -Arraylist of ships
-
-
-Collaboration relationships:
-
-    Canvas:
-        -Main
-        -Model
-    Button (and all subclasses)
-        -Canvas
-    ToggleButton
-        -Canvas
-
-    
 
 
 Encapsulation design choices:

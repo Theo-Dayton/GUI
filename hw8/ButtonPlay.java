@@ -1,8 +1,6 @@
-import javax.swing.JButton; 
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ButtonPlay extends Button implements ActionListener{ 
+public class ButtonPlay extends Button{ 
 
     public ButtonPlay (String label) {
 	    super(label);

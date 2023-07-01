@@ -1,7 +1,6 @@
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ButtonZoom extends Button implements ActionListener{ 
+public class ButtonZoom extends Button{ 
     private String direction;
 
     public ButtonZoom (String label, String direction) {

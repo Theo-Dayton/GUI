@@ -1,9 +1,8 @@
 import java.awt.event.*;
 
-public class ButtonGet extends Button implements ActionListener {
+public class ButtonGet extends Button {
     private ComboBox combo; 
     private ScrollBarHorizontal scroll;
-    private Canvas c;
 
     public ButtonGet (ComboBox combo, ScrollBarHorizontal scroll, Canvas c) { 
         super(combo,scroll,c);

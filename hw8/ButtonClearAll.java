@@ -1,7 +1,6 @@
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ButtonClearAll extends Button implements ActionListener{ 
+public class ButtonClearAll extends Button { 
 
     public ButtonClearAll (String label) {
 	    super(label);

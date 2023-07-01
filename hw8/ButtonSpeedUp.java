@@ -1,8 +1,6 @@
-import javax.swing.JButton; 
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ButtonSpeedUp extends Button implements ActionListener{ 
+public class ButtonSpeedUp extends Button{ 
 
     public ButtonSpeedUp (String label) {
 	    super(label);

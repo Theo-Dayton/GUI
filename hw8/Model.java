@@ -101,10 +101,6 @@ public class Model {
 		parent.frameNumberChange(false);
 	}
 
-	public void addToListAt(Ship ship, int index) {
-		ships.add(index, ship);
-	}
-
 	public void removeShip() {
 		boolean removedship = false;
 		for (Ship s : ships) {

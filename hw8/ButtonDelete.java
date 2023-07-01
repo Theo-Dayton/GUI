@@ -1,7 +1,6 @@
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ButtonDelete extends Button implements ActionListener{ 
+public class ButtonDelete extends Button{ 
 
     public ButtonDelete (String label) {
 	    super(label);

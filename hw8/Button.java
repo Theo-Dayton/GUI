@@ -25,6 +25,10 @@ abstract public class Button extends JButton implements ActionListener{
 
     }
 
+    public Button (ComboBox combo, Canvas c) {
+
+    }
+
     public void actionPerformed (ActionEvent e) {
     }
 }

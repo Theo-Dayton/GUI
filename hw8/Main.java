@@ -3,6 +3,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.JOptionPane;
 
 public class Main extends JFrame implements ActionListener, KeyListener, ComponentListener{
 	private Model model;
@@ -11,16 +12,17 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 	private int frameNumber = 1;
 	private int frameSpeed = 2;
 	private Timer timer;
-	private Button speedUp, slowDown, addShip, deleteShip, clearAll,zoomIn,zoomOut,zoomReset,play;
+	private Button speedUp, slowDown, addShip, deleteShip, clearAll,zoomIn,zoomOut,zoomReset,play, selectDifficulty;
 	private ToggleButton toggle;
-	private ComboBox combo;
-	private JLabel length, score;
+	private ComboBox combo, comboDifficulty;
+	private JLabel length, score, difficulty;
 	private ScrollBarHorizontal scroll;
 
 	private JPanel framing; //main frame
 	private JPanel subPanel1; //north panel
 	private JPanel subPanel2; // west panel
 	private JPanel subPanel3; // east panel
+	private JPanel subPanel4; // south difficulty panel
 
 	private static final int SMALL = 400;
 	private static final int LARGE = 800;
@@ -44,9 +46,15 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 	canvas = new Canvas(this, model);
 	addComponentListener (this); 
 
-	// for (int i = 0; i <1; i++) {
-	// 	model.addShip("Battleship", 50, frameNumber);
-	// }
+	// widgets to select difficult
+	difficulty = new JLabel ("Select difficulty:");
+	comboDifficulty = new ComboBoxDifficulty();
+	selectDifficulty = new ButtonDifficulty(comboDifficulty, canvas);
+	subPanel4 = new JPanel();
+	subPanel4.add(difficulty);
+	subPanel4.add(comboDifficulty);
+	subPanel4.add(selectDifficulty);
+
 
 	// WEST panel
 	JPanel subPanel2Layout = new JPanel(new GridBagLayout());
@@ -80,7 +88,7 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 	subPanel1 = new JPanel();
 
 	play = new ButtonPlay("Play", canvas);
-	combo = new ComboBox ();
+	combo = new ComboBoxShip ();
 	scroll = new ScrollBarHorizontal(canvas);
 	length = new JLabel ("Length");
 	addShip = new ButtonGet(combo, scroll, canvas);
@@ -212,7 +220,14 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 		zoomIn.setEnabled(!zoomIn.isEnabled());
 		zoomOut.setEnabled(!zoomOut.isEnabled());
 		zoomReset.setEnabled(!zoomReset.isEnabled());
-		toggle.setEnabled(!toggle.isEnabled());
+		if (toggle.isShowing()) {
+			framing.remove(toggle);
+			framing.add(subPanel4, BorderLayout.SOUTH);
+		}
+		else {
+			framing.remove(subPanel4);
+			framing.add(toggle, BorderLayout.SOUTH);
+		}
 	}
 
 	public boolean isPlaying() {
