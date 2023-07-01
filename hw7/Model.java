@@ -12,8 +12,6 @@ public class Model {
 
 	protected int gamePoints;
 
-	private Dimension size;
-
     public Model () {
 		this.ships = new ArrayList<Ship>();
 		numOfCalls = 0;
@@ -21,8 +19,20 @@ public class Model {
 		gamePoints = 0;
     }
 
-	public void drawAll(Graphics g, int frameNumber) {
+	public void drawAll(Graphics g, int frameNumber, Dimension size) {
 		for (Ship s : ships) {
+			if (intersectsAny(s, frameNumber)) {
+				System.out.println("CRASH!!!");
+				ships.remove(s);
+				addPoint();
+				break;
+			}
+			else if (outOfBounds(s, frameNumber, size)) {
+				System.out.println("Out of bounds!");
+				ships.remove(s);
+				substractPoint();
+				break;
+			}
             s.drawShip(g, frameNumber,zoomMagnitude);
         }
 	}
@@ -153,11 +163,17 @@ public class Model {
 
 	public boolean intersectsAny(Ship ship, int frameNumber) {
 		for (Ship s : ships) {
-			if (ship.intersects(s, frameNumber)) {
+			if (ship.intersects(s, frameNumber) && (s != ship)) {
 				return true;
-
 			}
         }
+		return false;
+	}
+
+	public boolean outOfBounds(Ship ship, int frameNumber, Dimension size) {
+		if (ship.outOfBounds(size)) {
+				return true;
+			}
 		return false;
 	}
 
@@ -167,6 +183,9 @@ public class Model {
 
 	public void substractPoint() {
 		gamePoints--;
+	}
+	public void resetPoints() {
+		gamePoints = 0;
 	}
 
 }

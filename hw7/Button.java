@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Button extends JButton implements ActionListener{ 
+abstract public class Button extends JButton implements ActionListener{ 
     protected Canvas c;
 
     public Button (String label) {

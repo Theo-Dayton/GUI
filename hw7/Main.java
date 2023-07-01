@@ -11,7 +11,8 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 	private int frameNumber = 1;
 	private int frameSpeed = 2;
 	private Timer timer;
-	private Button speedUp, slowDown, addShip, deleteShip, clearAll,zoomIn,zoomOut,zoomReset;
+	private Button speedUp, slowDown, addShip, deleteShip, clearAll,zoomIn,zoomOut,zoomReset,play;
+	private ToggleButton toggle;
 	private ComboBox combo;
 	private JLabel length, score;
 	private ScrollBarHorizontal scroll;
@@ -43,9 +44,9 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 	canvas = new Canvas(this, model);
 	addComponentListener (this); 
 
-	for (int i = 0; i <1; i++) {
-		model.addShip("Battleship", 50, frameNumber);
-	}
+	// for (int i = 0; i <1; i++) {
+	// 	model.addShip("Battleship", 50, frameNumber);
+	// }
 
 	// WEST panel
 	JPanel subPanel2Layout = new JPanel(new GridBagLayout());
@@ -78,7 +79,8 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 	// CREATING SUBPANEL FOR NORTH
 	subPanel1 = new JPanel();
 
-	combo = new ComboBox (canvas);
+	play = new ButtonPlay("Play", canvas);
+	combo = new ComboBox ();
 	scroll = new ScrollBarHorizontal(canvas);
 	length = new JLabel ("Length");
 	addShip = new ButtonGet(combo, scroll, canvas);
@@ -86,7 +88,7 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 	clearAll = new ButtonClearAll ("Clear all", canvas);
 	score = new JLabel ("Score 0");
 
-
+	subPanel1.add (play);
 	subPanel1.add (combo);
 	subPanel1.add (length);
 	subPanel1.add (scroll);
@@ -94,11 +96,13 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 	subPanel1.add (deleteShip);
 	subPanel1.add (clearAll);
 	subPanel1.add (score);
+	score.setVisible(false);
 
 	framing.add (subPanel1, BorderLayout.NORTH);
 	
 	//CREATING BUTTON FOR SOUTH
-	framing.add (new ToggleButton ("Click to pause time", canvas), BorderLayout.SOUTH);
+	toggle = new ToggleButton ("Click to pause time", canvas);
+	framing.add (toggle, BorderLayout.SOUTH);
 	framing.add (this.canvas, BorderLayout.CENTER);
 
 	add(framing);
@@ -117,7 +121,7 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 
     // Like a clock tick
     public void actionPerformed (ActionEvent e) {
-		frameNumber += frameSpeed;
+		frameNumber = frameSpeed;
 		canvas.repaint(); 
     }
 
@@ -174,6 +178,7 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 
 	public void addPanel() {
 		subPanel1.removeAll();
+		subPanel1.add (play);
 		subPanel1.add (combo);
 		subPanel1.add (length);
 		subPanel1.add (scroll);
@@ -189,6 +194,29 @@ public class Main extends JFrame implements ActionListener, KeyListener, Compone
 	
 	public void setScore(int gameScore) {
 		score.setText("Score: " + gameScore);
+	}
+
+	public Dimension getMainSize() {
+		return framing.getSize(); 
+	}
+
+	public void play() {
+		clearAll.setEnabled(!addShip.isEnabled());
+		speedUp.setEnabled(!addShip.isEnabled());
+		slowDown.setEnabled(!addShip.isEnabled());
+		addShip.setEnabled(!addShip.isEnabled());
+		score.setVisible(!score.isVisible());
+		length.setVisible(!length.isVisible());
+		scroll.setVisible(!scroll.isVisible());
+		combo.setVisible(!combo.isVisible());
+		zoomIn.setEnabled(!zoomIn.isEnabled());
+		zoomOut.setEnabled(!zoomOut.isEnabled());
+		zoomReset.setEnabled(!zoomReset.isEnabled());
+		toggle.setEnabled(!toggle.isEnabled());
+	}
+
+	public boolean isPlaying() {
+		return score.isVisible();
 	}
 	
 

@@ -26,26 +26,29 @@ public class ShipSubmarine extends Ship{
     }
 
     public void drawShip(Graphics g, int frameNumber, int zoomMagnitude) {
-        int shipX,shipY = 0;
-        if ((frameNumber + x) > ZOOMCENTER) {
-            shipX = (frameNumber + x)-zoomMagnitude;
+        Ellipse2D.Double loc = new Ellipse2D.Double(x,y,width,length);
+        
+        applyMovement(loc, frameNumber);
+
+        if (loc.x > ZOOMCENTER) {
+            loc.x = loc.x-zoomMagnitude;
         }
         else {
-            shipX = (frameNumber + x)+zoomMagnitude;
+            loc.x = loc.x+zoomMagnitude;
         }
 
-        if ((y) > ZOOMCENTER) {
-            shipY = y-zoomMagnitude;
+        if (loc.y > ZOOMCENTER) {
+            loc.y = loc.y-zoomMagnitude;
         }
         else {
-            shipY = y+zoomMagnitude;
+            loc.y = loc.y+zoomMagnitude;
         }
 
         if (filled) {
-            g.fillOval(shipX,shipY,width,length);
+            g.fillOval((int)loc.x,(int)loc.y,(int)loc.width,(int)loc.height);
         }
         else {
-            g.drawOval(shipX,shipY,width,length);
+            g.drawOval((int)loc.x,(int)loc.y,(int)loc.width,(int)loc.height);
         }
     }
 
@@ -67,6 +70,25 @@ public class ShipSubmarine extends Ship{
         Ellipse2D.Double shape1 = new Ellipse2D.Double(this.getX()+ frameNumber,this.getY(),this.getWidth(),this.getLength());
         Ellipse2D.Double shape2 = new Ellipse2D.Double(ship.getX() + frameNumber,ship.getY(),ship.getWidth(),ship.getLength());
         return testIntersection(shape1, shape2);
+    }
+
+    public void applyMovement(Ellipse2D.Double loc, int frameNumber) {
+        if (direction == 0) {
+            loc.x = (x + frameNumber);
+            x = (int)loc.x;
+        }
+        else if (direction == 1) {
+            loc.x = x - frameNumber;
+            x = (int)loc.x;
+        }
+        else if (direction == 2) {
+            loc.y = y + frameNumber;
+            y = (int)loc.y;
+        }
+        else if (direction == 3) {
+            loc.y = y - frameNumber;
+            y = (int)loc.y;
+        }
     }
 
 }

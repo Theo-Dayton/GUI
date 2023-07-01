@@ -5,21 +5,25 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.concurrent.*;
+import java.util.*;
 
 public class Canvas extends JPanel implements MouseListener {
-    public Model model;
-    public Main parent;
+    protected Model model;
+    protected Main parent;
 
     public Canvas (Main parent, Model model) {
         this.model = model;
         this.parent = parent;
         addMouseListener (this);
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    executor.scheduleAtFixedRate(shipAdding, 0, 2, TimeUnit.SECONDS);
     }
 
     public void paintComponent(Graphics g) {
-        //System.out.println("canvas");
         super.paintComponent(g);
-        model.drawAll(g,parent.getFrameNumber());
+        model.drawAll(g,parent.getFrameNumber(),parent.getMainSize());
+        updateScore();
     }
     
     public void resetCanvas() {
@@ -31,6 +35,20 @@ public class Canvas extends JPanel implements MouseListener {
         model.addShip(name, length, parent.getFrameNumber());
         repaint();
     }
+
+    Runnable shipAdding = new Runnable() {
+        public void run() {
+            Random rand = new Random();
+            int randomized = rand.nextInt(2);
+            if (randomized == 0) {
+            model.addShip("Battleship", 50, parent.getFrameNumber());
+            }
+            else {
+                model.addShip("Submarine", 50, parent.getFrameNumber());
+            }
+            repaint();
+        }
+    };
 
     public void removeShip() {
         model.removeShip();
@@ -66,6 +84,11 @@ public class Canvas extends JPanel implements MouseListener {
         System.out.println ("Mouse down at " + event.getPoint().x + ", " + event.getPoint().y);
         model.mousePress(event, parent.getFrameNumber());
         repaint();
+    }
+
+    public void play() {
+        parent.play();
+        model.resetPoints();
     }
 
         // MouseListener defines all of these, so we must supply them 

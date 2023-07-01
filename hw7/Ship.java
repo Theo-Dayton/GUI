@@ -1,16 +1,20 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.util.*;
 
 abstract public class Ship {
     protected int x,y,width,length;
     protected String name;
+    protected int direction;
     protected boolean filled;
 
     protected static final int ZOOMCENTER = 300;
 
     public Ship () {
         filled = false;
+        Random rand = new Random();
+        direction = rand.nextInt(4);
     }
 
     public void drawShip(Graphics g) {
@@ -74,6 +78,22 @@ abstract public class Ship {
         Area areaA = new Area(shapeA);
         areaA.intersect(new Area(shapeB));
         return !areaA.isEmpty();
+     }
+
+     public boolean outOfBounds(Dimension size) {
+        if (direction == 0 && ((x+width) > (size.getWidth()-200))) {
+            return true;
+        }
+        else if (direction == 1 && (x < 0)) {
+            return true;
+        }
+        else if (direction == 2 && ((y+length) > (size.getHeight()-75))) {
+            return true;
+        }
+        else if (direction == 3 && (y < 0)) {
+            return true;
+        }
+        return false;
      }
 
 }

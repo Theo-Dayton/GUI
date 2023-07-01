@@ -4,10 +4,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 public class ComboBox extends JComboBox<String> implements ItemListener {
-	private Canvas c;
 
-    public ComboBox (Canvas c) {
-		this.c = c;
+    public ComboBox () {
 		addItem ("Battleship"); 
 		addItem ("Submarine"); 
 		setSelectedItem ("Battleship"); 
